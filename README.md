@@ -1,6 +1,8 @@
 #Bookmarks
 
-Website which stores bookmarks with optional notes. Essentially delicious etc :)
+Website which stores bookmarks with optional notes. Essentially delicious :)
 
 ## Requirements
-Requires Flask and Python 2.7
+- Flask 0.9
+- Python 2.7
+- SQLite3
