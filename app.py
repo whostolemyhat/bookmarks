@@ -45,8 +45,7 @@ def show_entries():
 def add_bookmark():
     if not session.get('logged_in'):
         abort(401)
-    g.db.execute('INSERT INTO bookmarks(title, link, note) VALUES(?, ?, ?)',
-        [request.form['title'], request.form['link'], request.form['note']])
+    g.db.execute('INSERT INTO bookmarks(title, link, note) VALUES(?, ?, ?)', [request.form['title'], request.form['link'], request.form['note']])
     g.db.commit()
     flash('New bookmark added')
     return redirect(url_for('show_entries'))

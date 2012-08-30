@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    {% if session.logged_in %}
+        <form action="{{ url_for('add_bookmark') }}" method="post" class="add-bookmark">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" />
+
+            <label for="link">Link</label>
+            <input type="text" name="link" id="link" />
+
+            <label for="note">Note</label>
+            <textarea name="note" id="note" cols="30" rows="20"></textarea>
+
+            <input type="submit" value="Save" />
+        </form>
+    {% endif %}
+
+    <ul class="entries">
+        {% for bookmark in bookmarks %}
+            <li><h2><a href="{{ bookmark.link }}">{{ bookmark.title }}</a></h2>{{ bookmark.note }}</li>
+        {% else %}
+            <li>Nothing here yet :(</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
