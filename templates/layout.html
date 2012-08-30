@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <title>Bookmarks</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css' }}" media="all">
+</head>
+<body>
+    <h1>Bookmarks</h1>
+    <div class="nav">
+        {% if not session.logged_in %}
+        <a href="{{ url_for('login') }}">Log in</a>
+        {% else %}
+            <a href="{{ url_for('logout') }}">Log out</a>
+        {% endif %}
+    </div>
+</body>
+</html>
