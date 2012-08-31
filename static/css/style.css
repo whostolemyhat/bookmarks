@@ -6,6 +6,16 @@ body {
     margin: 0 150px 100px;
 }
 
+/* Text */
+
+h1, h2, h3 {}
+
+h2 {
+    margin: .8em 0 .3em;
+}
+
+/* End text */
+
 .entries {
     list-style-type: none;
     padding: 0;
@@ -13,7 +23,6 @@ body {
 }
 
 li {
-    /*background: #eee;*/
     border: 1px solid #eee;
     border-radius: 5px;
     padding: 15px;
@@ -46,3 +55,25 @@ li {
     padding: 0.5em;
     border: 1px solid #AACBE2;
 }
+
+/* Forms */
+form {
+    width: 25%;
+    padding: .3em 1em 1em 0;
+}
+
+input, textarea {
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+input[type="submit"] {
+    width: auto;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+}
+
+/* End forms */
