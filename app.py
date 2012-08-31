@@ -36,8 +36,8 @@ def teardown_request(exception):
 
 @app.route('/')
 def show_entries():
-    cur = g.db.execute('SELECT title, link, note FROM bookmarks ORDER BY id DESC')
-    bookmarks = [dict(title=row[0], link=row[1], note=row[2]) for row in cur.fetchall()]
+    cur = g.db.execute('SELECT title, link, note, id FROM bookmarks ORDER BY id DESC')
+    bookmarks = [dict(title=row[0], link=row[1], note=row[2], id=row[3]) for row in cur.fetchall()]
     return render_template('show_links.html', bookmarks=bookmarks)
 
 
@@ -48,6 +48,30 @@ def add_bookmark():
     g.db.execute('INSERT INTO bookmarks(title, link, note) VALUES(?, ?, ?)', [request.form['title'], request.form['link'], request.form['note']])
     g.db.commit()
     flash('New bookmark added')
+    return redirect(url_for('show_entries'))
+
+
+@app.route('/edit')
+def edit_bookmark():
+    if not session.get('logged_in'):
+        abort(401)
+    bookmark_id = request.args.get('id')
+    if bookmark_id.isdigit():
+        cur = g.db.execute('SELECT title, link, note, id FROM bookmarks WHERE id=?', bookmark_id)
+        bookmark = [dict(title=row[0], link=row[1], note=row[2], id=row[3]) for row in cur.fetchall()]
+        return render_template('edit_link.html', bookmark=bookmark)
+    else:
+        flash("Error: can't find bookmark in database")
+        return redirect(url_for('show_entries'))
+
+
+@app.route('/save_edit', methods=['POST'])
+def save_edit():
+    if not session.get('logged_in'):
+        abort(401)
+    g.db.execute('UPDATE bookmarks SET title=?, link=?, note=? WHERE id=?', [request.form['title'], request.form['link'], request.form['note'], request.form['id']])
+    g.db.commit()
+    flash('Updated bookmark')
     return redirect(url_for('show_entries'))
 
 

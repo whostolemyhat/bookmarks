@@ -1,0 +1,48 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0 150px 100px;
+}
+
+.entries {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    /*background: #eee;*/
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 2em;
+    line-height: 1.5em;
+}
+
+.title a {
+    background: #3A5E8C;
+    padding: 15px 10px;
+    color: white;
+    width: 100%;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.1em;
+    text-decoration: none;
+    display: block;
+}
+
+.title a:visited {
+
+}
+
+.title a:hover {
+    text-decoration: underline;
+}
+
+.flash { 
+    background: #CEE5F5; 
+    padding: 0.5em;
+    border: 1px solid #AACBE2;
+}

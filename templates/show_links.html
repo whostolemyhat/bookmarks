@@ -18,7 +18,11 @@
 
     <ul class="entries">
         {% for bookmark in bookmarks %}
-            <li><h2><a href="{{ bookmark.link }}">{{ bookmark.title }}</a></h2>{{ bookmark.note }}</li>
+            <li>
+                <a href="{{ bookmark.link }}" class="title">{{ bookmark.title }}</a>
+                <a href="{{ url_for('edit_bookmark', id=bookmark.id) }}" class="edit-bookmark">Edit</a>
+                <p>{{ bookmark.note }}</p>
+            </li>
         {% else %}
             <li>Nothing here yet :(</li>
         {% endfor %}

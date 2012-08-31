@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    {% if session.logged_in %}
+        {% for entry in bookmark %}
+            <form action="{{ url_for('save_edit') }}" method="post" class="add-bookmark">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" value="{{ entry.title }}" />
+
+                <label for="link">Link</label>
+                <input type="text" name="link" id="link" value="{{ entry.link }}" />
+
+                <label for="note">Note</label>
+                <textarea name="note" id="note" cols="30" rows="10">{{ entry.note }}</textarea>
+
+                <input type="hidden" name="id" value="{{ entry.id }}">
+
+                <input type="submit" value="Save" />
+            </form>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
