@@ -50,6 +50,11 @@ li {
     text-decoration: underline;
 }
 
+.options {
+    font-size: .9em;
+    float: right;
+}
+
 .flash { 
     background: #CEE5F5; 
     padding: 0.5em;
@@ -67,8 +72,10 @@ input, textarea {
     margin-bottom: 1em;
 }
 
-input[type="submit"] {
+input[type="submit"], input[type="radio"] {
     width: auto;
+    clear: left;
+    display: inline-block;
 }
 
 label {

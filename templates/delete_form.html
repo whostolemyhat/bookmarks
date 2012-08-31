@@ -7,8 +7,8 @@
 
             <form action="{{ url_for('confirm_delete') }}" method="post" class="delete">
                 <label for="delete">Delete {{ entry.title }}?</label>
-                <input type="radio" name="delete" value="delete"> Delete
-                <input type="radio" name="delete" value="cancel"> Cancel
+                <input type="radio" name="delete" value="delete"> Delete <br />
+                <input type="radio" name="delete" value="cancel"> Cancel <br />
 
                 <input type="hidden" name="id" value="{{ entry.id }}">
 
