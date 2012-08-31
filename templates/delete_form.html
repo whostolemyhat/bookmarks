@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    {% if session.logged_in %}
+        {% for entry in bookmark %}
+        <h1>Confirm deletion</h1>
+
+            <form action="{{ url_for('confirm_delete') }}" method="post" class="delete">
+                <label for="delete">Delete {{ entry.title }}?</label>
+                <input type="radio" name="delete" value="delete"> Delete
+                <input type="radio" name="delete" value="cancel"> Cancel
+
+                <input type="hidden" name="id" value="{{ entry.id }}">
+
+                <input type="submit" value="Confirm" />
+            </form>
+
+            <a href="{{ url_for('show_entries') }}">Cancel</a>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}

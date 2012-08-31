@@ -69,10 +69,42 @@ def edit_bookmark():
 def save_edit():
     if not session.get('logged_in'):
         abort(401)
-    g.db.execute('UPDATE bookmarks SET title=?, link=?, note=? WHERE id=?', [request.form['title'], request.form['link'], request.form['note'], request.form['id']])
-    g.db.commit()
-    flash('Updated bookmark')
+    if request.form['id'].isdigit():
+        g.db.execute('UPDATE bookmarks SET title=?, link=?, note=? WHERE id=?', [request.form['title'], request.form['link'], request.form['note'], request.form['id']])
+        g.db.commit()
+        flash('Updated bookmark')
+        return redirect(url_for('show_entries'))
+    else:
+        flash("Error: can't save update")
+
+
+@app.route('/delete')
+def delete_bookmark():
+    if not session.get('logged_in'):
+        abort(401)
+    bookmark_id = request.args.get('id')
+    if bookmark_id.isdigit():
+        cur = g.db.execute('SELECT title, link, note, id FROM bookmarks WHERE id=?', bookmark_id)
+        bookmark = [dict(title=row[0], link=row[1], note=row[2], id=row[3]) for row in cur.fetchall()]
+        return render_template('delete_form.html', bookmark=bookmark)
+    else:
+        flash("Error: can't find bookmark in database")
+        return redirect(url_for('show_entries'))
+
+
+@app.route('/confirm_delete', methods=['POST'])
+def confirm_delete():
+    if not session.get('logged_in'):
+        abort(401)
+    if request.form['delete'] == 'delete':
+        if request.form['id'].isdigit():
+            g.db.execute('DELETE FROM bookmarks WHERE id=?', request.form['id'])
+            g.db.commit()
+            flash('Deleted bookmark')
+        else:
+            flash("Error: can't save update")
     return redirect(url_for('show_entries'))
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
