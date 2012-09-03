@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, url_for, render_template, flash, request, session, g, redirect, abort
+from flask import Flask, url_for, render_template, flash, request, session, g, redirect, abort, json
 from contextlib import closing
 
 # config
@@ -49,6 +49,20 @@ def show_entries():
         cur = g.db.execute('SELECT title, link, note, id FROM bookmarks ORDER BY id DESC')
     bookmarks = [dict(title=row[0], link=row[1], note=row[2], id=row[3]) for row in cur.fetchall()]
     return render_template('show_links.html', bookmarks=bookmarks)
+
+
+@app.route('/all/json')
+def json_entries():
+    cur = g.db.execute('SELECT title, link, note, id FROM bookmarks ORDER BY id DESC')
+    bookmarks = [dict(title=row[0], link=row[1], note=row[2], id=row[3]) for row in cur.fetchall()]
+    return json.dumps(bookmarks)
+
+
+@app.route('/all/az/json')
+def az_json():
+    cur = g.db.execute('SELECT title, link, note, id FROM bookmarks ORDER BY title ASC')
+    bookmarks = [dict(title=row[0], link=row[1], note=row[2], id=row[3]) for row in cur.fetchall()]
+    return json.dumps(bookmarks)
 
 
 @app.route('/add', methods=['POST'])
