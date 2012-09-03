@@ -17,6 +17,9 @@
         </form>
     {% endif %}
 
+    <a href="?order=az" id="a-z">Sort alphabetically</a>
+    <a href="?order=newest" id="newest">Sort newest first</a>
+
     <ul class="entries">
         {% for bookmark in bookmarks %}
             <li>

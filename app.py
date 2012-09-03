@@ -36,7 +36,17 @@ def teardown_request(exception):
 
 @app.route('/')
 def show_entries():
-    cur = g.db.execute('SELECT title, link, note, id FROM bookmarks ORDER BY id DESC')
+    if request.args.get('order'):
+        sort_order = request.args.get('order')
+    else:
+        sort_order = session.get('order')
+
+    if sort_order == 'az':
+        session['order'] = 'az'
+        cur = g.db.execute('SELECT title, link, note, id FROM bookmarks ORDER BY title ASC')
+    else:
+        session['order'] = 'newest'
+        cur = g.db.execute('SELECT title, link, note, id FROM bookmarks ORDER BY id DESC')
     bookmarks = [dict(title=row[0], link=row[1], note=row[2], id=row[3]) for row in cur.fetchall()]
     return render_template('show_links.html', bookmarks=bookmarks)
 
