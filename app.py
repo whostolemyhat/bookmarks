@@ -96,6 +96,7 @@ def edit_bookmark():
     if not session.get('logged_in'):
         abort(401)
     bookmark_id = request.args.get('id')
+
     if bookmark_id.isdigit():
         cur = g.db.execute('SELECT title, link, note, id FROM bookmarks WHERE id=?', bookmark_id)
         bookmark = [dict(title=row[0], link=row[1], note=row[2], id=row[3]) for row in cur.fetchall()]
@@ -123,8 +124,9 @@ def delete_bookmark():
     if not session.get('logged_in'):
         abort(401)
     bookmark_id = request.args.get('id')
+
     if bookmark_id.isdigit():
-        cur = g.db.execute('SELECT title, link, note, id FROM bookmarks WHERE id=?', bookmark_id)
+        cur = g.db.execute('SELECT title, link, note, id FROM bookmarks WHERE id=?', bookmark_id.encode('ascii', 'ignore'))
         bookmark = [dict(title=row[0], link=row[1], note=row[2], id=row[3]) for row in cur.fetchall()]
         return render_template('delete_form.html', bookmark=bookmark)
     else:
