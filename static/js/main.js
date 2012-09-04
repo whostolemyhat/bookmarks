@@ -9,4 +9,14 @@ $(document).ready(function() {
         $('#popup').load($(this).attr('href'));
         return false;
     });
+
+    $('#a-z').click(function() {
+        $('.entries').load('/az');
+        return false;
+    });
+
+    $('#newest').click(function() {
+        $('.entries').load('/newest');
+        return false;
+    });
 });
