@@ -85,7 +85,11 @@ def az_json():
 def add_bookmark():
     if not session.get('logged_in'):
         abort(401)
-    g.db.execute('INSERT INTO bookmarks(title, link, note) VALUES(?, ?, ?)', [request.form['title'], request.form['link'], request.form['note']])
+
+    link = request.form['link']
+    if link[:4] != 'http':
+        link = 'http://' + link
+    g.db.execute('INSERT INTO bookmarks(title, link, note) VALUES(?, ?, ?)', [request.form['title'], link, request.form['note']])
     g.db.commit()
     flash('New bookmark added')
     return redirect(url_for('show_entries'))
@@ -98,7 +102,7 @@ def edit_bookmark():
     bookmark_id = request.args.get('id')
 
     if bookmark_id.isdigit():
-        cur = g.db.execute('SELECT title, link, note, id FROM bookmarks WHERE id=?', bookmark_id)
+        cur = g.db.execute('SELECT title, link, note, id FROM bookmarks WHERE id=?', [bookmark_id])
         bookmark = [dict(title=row[0], link=row[1], note=row[2], id=row[3]) for row in cur.fetchall()]
         return render_template('edit_link.html', bookmark=bookmark)
     else:
@@ -111,7 +115,7 @@ def save_edit():
     if not session.get('logged_in'):
         abort(401)
     if request.form['id'].isdigit():
-        g.db.execute('UPDATE bookmarks SET title=?, link=?, note=? WHERE id=?', [request.form['title'], request.form['link'], request.form['note'], request.form['id']])
+        g.db.execute('UPDATE bookmarks SET title=?, link=?, note=? WHERE id=?', ([request.form['title'], request.form['link'], request.form['note'], request.form['id']]))
         g.db.commit()
         flash('Updated bookmark')
         return redirect(url_for('show_entries'))
@@ -126,7 +130,7 @@ def delete_bookmark():
     bookmark_id = request.args.get('id')
 
     if bookmark_id.isdigit():
-        cur = g.db.execute('SELECT title, link, note, id FROM bookmarks WHERE id=?', bookmark_id.encode('ascii', 'ignore'))
+        cur = g.db.execute('SELECT title, link, note, id FROM bookmarks WHERE id=?', [bookmark_id])
         bookmark = [dict(title=row[0], link=row[1], note=row[2], id=row[3]) for row in cur.fetchall()]
         return render_template('delete_form.html', bookmark=bookmark)
     else:
@@ -140,7 +144,7 @@ def confirm_delete():
         abort(401)
     if request.form['delete'] == 'delete':
         if request.form['id'].isdigit():
-            g.db.execute('DELETE FROM bookmarks WHERE id=?', request.form['id'])
+            g.db.execute('DELETE FROM bookmarks WHERE id=?', [request.form['id']])
             g.db.commit()
             flash('Deleted bookmark')
         else:

@@ -8,7 +8,6 @@ $(document).ready(function() {
     // $('.add-bookmark').submit(function(event) {
     //     event.preventDefault();
 
-
     //     var form = $(this);
     //     console.log(form.serialize());
 
@@ -20,11 +19,11 @@ $(document).ready(function() {
     // });
 
     // Delete
-    // $('.delete-bookmark').click(function() {
-    //     $('<div id="popup" />').appendTo('body');
-    //     $('#popup').load($(this).attr('href'));
-    //     return false;
-    // });
+    $('.delete-bookmark').click(function() {
+        $('<div id="popup" />').appendTo('body');
+        $('#popup').load($(this).attr('href'));
+        return false;
+    });
 
     // Order
     $('#a-z').click(function() {
